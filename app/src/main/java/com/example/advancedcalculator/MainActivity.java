@@ -121,6 +121,23 @@ public class MainActivity extends AppCompatActivity {
 
     private void calculateResult() {
         try {
+            // Check if current expression ends with '%'
+            if (currentExpression.endsWith("%")) {
+                String numberPart = currentExpression.substring(0, currentExpression.length() - 1);
+                double number = Double.parseDouble(numberPart);
+                double result = number / 100;  // Convert to percentage
+                totaltxt.setText(String.valueOf(result));
+                currentExpression = String.valueOf(result);  // Update current expression for further calculations
+                return;
+            }
+
+            // If no operator is present, just print the single operand
+            if (currentExpression.matches("^[0-9.]+$")) {
+                totaltxt.setText(currentExpression);  // No operation, just display the number
+                return;
+            }
+
+            // Evaluate the expression with operators
             double result = evaluateExpression(currentExpression.replace("X", "*"));
             totaltxt.setText(String.valueOf(result));
             currentExpression = String.valueOf(result);
@@ -129,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
             currentExpression = "";
         }
     }
+
 
     // Simple method to evaluate the expression using stacks
     private double evaluateExpression(String expression) {
@@ -192,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
                 if (b == 0) throw new ArithmeticException("Division by zero");
                 return a / b;
             case '%':
-                return a / 100;
+                return (a / 100) * b;
             default:
                 return 0;
         }
