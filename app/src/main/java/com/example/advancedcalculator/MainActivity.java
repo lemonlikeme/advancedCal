@@ -13,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
+    //Tite ka villar
     private EditText totaltxt;
     private String currentInput = "";
     private double firstOperand = 0;
@@ -88,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
                 backspace();
                 break;
             case "+":
-
             case "-":
             case "/":
             case "X":
