@@ -11,13 +11,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.Stack;
+
 public class MainActivity extends AppCompatActivity {
 
-    //Tite ka villar
     private EditText totaltxt;
-    private String currentInput = "";
-    private double firstOperand = 0;
-    private String operator = "";
+    private String currentExpression = "";
     private boolean isOperatorPressed = false;
 
     @Override
@@ -79,9 +78,9 @@ public class MainActivity extends AppCompatActivity {
         button8.setOnClickListener(listener);
         button9.setOnClickListener(listener);
     }
-    private void handleInput(String input){
 
-        switch (input){
+    private void handleInput(String input) {
+        switch (input) {
             case "C":
                 clearAll();
                 break;
@@ -93,78 +92,121 @@ public class MainActivity extends AppCompatActivity {
             case "/":
             case "X":
             case "%":
-                setOperator(input);
+                if (!currentExpression.isEmpty()) {
+                    if (isOperatorPressed) {
+                        // Replace the operator if an operator was already pressed
+                        currentExpression = currentExpression.substring(0, currentExpression.length() - 1) + input;
+                    } else {
+                        currentExpression += input;
+                    }
+                    isOperatorPressed = true;
+                }
                 break;
             case "=":
                 calculateResult();
                 break;
             case ".":
-                if (!currentInput.contains(".")){
-                    currentInput += ".";
+                if (!currentExpression.endsWith(".")) {
+                    currentExpression += ".";
                 }
                 break;
             default:
-                if(isOperatorPressed) {
-                    currentInput = "";
-                    isOperatorPressed = false;
-                }
-                currentInput += input;
-                totaltxt.setText(currentInput);
+                currentExpression += input;
+                totaltxt.setText(currentExpression);
+                isOperatorPressed = false;
                 break;
         }
-    }
-
-    private void setOperator(String op) {
-        if (!currentInput.isEmpty()) {
-            firstOperand = Double.parseDouble(currentInput);
-            operator = op;
-            isOperatorPressed = true;
-        }
+        totaltxt.setText(currentExpression);
     }
 
     private void calculateResult() {
-        if (!currentInput.isEmpty() && !operator.isEmpty()) {
-            double secondOperand = Double.parseDouble(currentInput);
-            double result = 0;
-            switch (operator) {
-                case "+":
-                    result = firstOperand + secondOperand;
-                    break;
-                case "-":
-                    result = firstOperand - secondOperand;
-                    break;
-                case "X":
-                    result = firstOperand * secondOperand;
-                    break;
-                case "/":
-                    if (secondOperand != 0) {
-                        result = firstOperand / secondOperand;
-                    } else {
-                        totaltxt.setText("Error");
-                        return;
-                    }
-                    break;
-                case "%":
-                    result = firstOperand % secondOperand;
-                    break;
-            }
+        try {
+            double result = evaluateExpression(currentExpression.replace("X", "*"));
             totaltxt.setText(String.valueOf(result));
-            currentInput = String.valueOf(result);
-            operator = "";
+            currentExpression = String.valueOf(result);
+        } catch (Exception e) {
+            totaltxt.setText("Error");
+            currentExpression = "";
+        }
+    }
+
+    // Simple method to evaluate the expression using stacks
+    private double evaluateExpression(String expression) {
+        Stack<Double> numbers = new Stack<>();
+        Stack<Character> operators = new Stack<>();
+
+        for (int i = 0; i < expression.length(); i++) {
+            char c = expression.charAt(i);
+
+            // If the character is a digit, parse the full number
+            if (Character.isDigit(c)) {
+                StringBuilder number = new StringBuilder();
+                while (i < expression.length() && (Character.isDigit(expression.charAt(i)) || expression.charAt(i) == '.')) {
+                    number.append(expression.charAt(i++));
+                }
+                i--; // step back to correct for the extra increment
+                numbers.push(Double.parseDouble(number.toString()));
+            }
+            // If the character is an operator
+            else if (c == '+' || c == '-' || c == '*' || c == '/' || c == '%') {
+                while (!operators.isEmpty() && precedence(c) <= precedence(operators.peek())) {
+                    numbers.push(applyOperator(operators.pop(), numbers.pop(), numbers.pop()));
+                }
+                operators.push(c);
+            }
+        }
+
+        // Apply remaining operators
+        while (!operators.isEmpty()) {
+            numbers.push(applyOperator(operators.pop(), numbers.pop(), numbers.pop()));
+        }
+
+        return numbers.pop();
+    }
+
+    // Returns precedence of operators
+    private int precedence(char operator) {
+        switch (operator) {
+            case '+':
+            case '-':
+                return 1;
+            case '*':
+            case '/':
+            case '%':
+                return 2;
+            default:
+                return -1;
+        }
+    }
+
+    // Applies an operator to two numbers
+    private double applyOperator(char operator, double b, double a) {
+        switch (operator) {
+            case '+':
+                return a + b;
+            case '-':
+                return a - b;
+            case '*':
+                return a * b;
+            case '/':
+                if (b == 0) throw new ArithmeticException("Division by zero");
+                return a / b;
+            case '%':
+                return a / 100;
+            default:
+                return 0;
         }
     }
 
     private void clearAll() {
-        currentInput = "";
-        firstOperand = 0;
-        operator = "";
+        currentExpression = "";
         totaltxt.setText("");
     }
 
     private void backspace() {
-        if (currentInput.length() > 0) {
-            currentInput = currentInput.substring(0, currentInput.length() - 1);
-            totaltxt.setText(currentInput);
+        if (currentExpression.length() > 0) {
+            currentExpression = currentExpression.substring(0, currentExpression.length() - 1);
+            totaltxt.setText(currentExpression);
         }
     }
 }
