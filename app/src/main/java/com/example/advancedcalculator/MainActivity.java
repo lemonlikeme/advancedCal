@@ -95,6 +95,9 @@ public class MainActivity extends AppCompatActivity {
             case "%":
                 setOperator(input);
                 break;
+            case "=":
+                calculateResult();
+                break;
             case ".":
                 if (!currentInput.contains(".")){
                     currentInput += ".";
