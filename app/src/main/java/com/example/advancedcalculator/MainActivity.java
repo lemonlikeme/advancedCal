@@ -98,6 +98,10 @@ public class MainActivity extends AppCompatActivity {
             case "<=":
                 backspace();
                 break;
+            case "+":
+            case "-":
+            case "/":
+            case "X":
             case "%":
                 if (!currentExpression.isEmpty()) {
                     if (isOperatorPressed) {
@@ -200,8 +204,11 @@ public class MainActivity extends AppCompatActivity {
     // Returns precedence of operators
     private int precedence(char operator) {
         switch (operator) {
+            case '+':
             case '-':
                 return 1;
+            case '*':
+            case '/':
             case '%':
                 return 2;
             default:
@@ -238,6 +245,9 @@ public class MainActivity extends AppCompatActivity {
             currentExpression = currentExpression.substring(0, currentExpression.length() - 1);
             totaltxt.setText(currentExpression);
         }
+    }
+    private boolean isOperator(char c) {
+        return c == '+' || c == '-' || c == '*' || c == '/' || c == '%';
     }
 }
 
