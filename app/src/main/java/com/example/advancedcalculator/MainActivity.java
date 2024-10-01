@@ -6,6 +6,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
         totaltxt = findViewById(R.id.totaltxt);
+
 
         Button buttonC = findViewById(R.id.buttonC);
         Button buttonLessEquals = findViewById(R.id.buttonLessEquals);
@@ -58,6 +60,15 @@ public class MainActivity extends AppCompatActivity {
                 handleInput(b.getText().toString());
             }
         };
+        totaltxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    totaltxt.setSelection(totaltxt.getText().length()); // Move cursor to the end
+                }
+            }
+        });
+
         buttonC.setOnClickListener(listener);
         buttonLessEquals.setOnClickListener(listener);
         buttonPercent.setOnClickListener(listener);
@@ -87,10 +98,6 @@ public class MainActivity extends AppCompatActivity {
             case "<=":
                 backspace();
                 break;
-            case "+":
-            case "-":
-            case "/":
-            case "X":
             case "%":
                 if (!currentExpression.isEmpty()) {
                     if (isOperatorPressed) {
@@ -117,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         totaltxt.setText(currentExpression);
+        totaltxt.setSelection(currentExpression.length());
     }
 
     private void calculateResult() {
@@ -139,8 +147,15 @@ public class MainActivity extends AppCompatActivity {
 
             // Evaluate the expression with operators
             double result = evaluateExpression(currentExpression.replace("X", "*"));
-            totaltxt.setText(String.valueOf(result));
-            currentExpression = String.valueOf(result);
+            String res = String.valueOf(result);
+            if (res.endsWith(".0")) {
+                res = res.replace(".0", "");
+                totaltxt.setText(res);
+                currentExpression = res;
+            } else {
+                totaltxt.setText(res);
+                currentExpression = res;
+            }
         } catch (Exception e) {
             totaltxt.setText("Error");
             currentExpression = "";
@@ -185,11 +200,8 @@ public class MainActivity extends AppCompatActivity {
     // Returns precedence of operators
     private int precedence(char operator) {
         switch (operator) {
-            case '+':
             case '-':
                 return 1;
-            case '*':
-            case '/':
             case '%':
                 return 2;
             default:
@@ -228,3 +240,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
+

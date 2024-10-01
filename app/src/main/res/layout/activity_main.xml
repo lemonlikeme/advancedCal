@@ -9,21 +9,24 @@
             android:orientation="vertical"
             tools:context=".MainActivity">
 
-            <EditText
-                android:id="@+id/totaltxt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="17dp"
-                android:textColor="@color/black"
-                android:textSize="50dp"
-                android:inputType="none"
-                android:focusable="false"
-                android:clickable="false"
-                android:background="@drawable/editborder"
-                android:padding="30dp"
-                />
+    <EditText
+        android:id="@+id/totaltxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:background="@drawable/editborder"
+        android:clickable="false"
+        android:focusable="false"
+        android:inputType="none"
+        android:padding="30dp"
+        android:textColor="@color/black"
+        android:textSize="50dp"
+        android:singleLine="true"
+        android:gravity="end|center_vertical"
+        android:textAlignment="viewEnd"
+    />
 
-            <LinearLayout
+    <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
