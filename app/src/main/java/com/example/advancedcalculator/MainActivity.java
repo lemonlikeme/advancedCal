@@ -143,6 +143,10 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
+            if (currentExpression.length() > 0 && isOperator(currentExpression.charAt(currentExpression.length() - 1))) {
+                currentExpression = currentExpression.substring(0, currentExpression.length() - 1);
+            }
+
             // If no operator is present, just print the single operand
             if (currentExpression.matches("^[0-9.]+$")) {
                 totaltxt.setText(currentExpression);  // No operation, just display the number
@@ -247,7 +251,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     private boolean isOperator(char c) {
-        return c == '+' || c == '-' || c == '*' || c == '/' || c == '%';
+        return c == '+' || c == '-' || c == 'X' || c == '/'|| c == '%';
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
