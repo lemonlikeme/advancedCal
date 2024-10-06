@@ -258,16 +258,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void backspace() {
         if (currentExpression.length() > 0) {
-            // Check if the last character was an operator
-            char lastChar = currentExpression.charAt(currentExpression.length() - 1);        if (isOperator(lastChar)) {
-                isOperatorPressed = false; // Reset the operator flag if the last character is an operator
-            } else {
-                // If it's a number, we can reset the operator flag to allow entering an operator after
-                isOperatorPressed = true;
-            }
-
             // Remove the last character
             currentExpression = currentExpression.substring(0, currentExpression.length() - 1);
+
+            // Check if the last character was an operator
+            if (currentExpression.length() > 0 && isOperator(currentExpression.charAt(currentExpression.length() - 1))) {
+                isOperatorPressed = true; // Last input was an operator
+            } else {
+                isOperatorPressed = false; // Reset flag as the last input is not an operator
+            }
+
             totaltxt.setText(currentExpression);
         }
     }
