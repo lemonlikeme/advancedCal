@@ -1,5 +1,6 @@
 package com.example.advancedcalculator;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -124,6 +125,13 @@ public class MainActivity extends AppCompatActivity {
                     String[] parts = currentExpression.split("[+\\-*/X%]");
                     String lastNumber = parts[parts.length - 1];  // Get the last number
 
+                    // Check if the last character is an operator
+                    char lastChar = currentExpression.charAt(currentExpression.length() - 1);
+                    if (isOperator(lastChar)) {
+                        // If the last character is an operator, do not add a decimal point
+                        break; // Exit without adding anything
+                    }
+
                     // Check if the last number already contains a decimal point
                     if (!lastNumber.contains(".")) {
                         currentExpression += "."; // Add decimal point if not already present
@@ -144,30 +152,42 @@ public class MainActivity extends AppCompatActivity {
 
     private void calculateResult() {
         try {
-            if (currentExpression.endsWith("%")) {
-                String numberPart = currentExpression.substring(0, currentExpression.length() - 1);
-                double number = Double.parseDouble(numberPart);
-                double result = number / 100;
+            if (currentExpression.contains("%")) {
+                // Split the expression by "%" to handle multiple percentages
+                String[] percentageParts = currentExpression.split("%");
+                double result = 1; // Initialize result as 1 because we will multiply
+
+                // Loop through each part
+                for (String part : percentageParts) {
+                    if (!part.isEmpty()) {
+                        // Parse the number, divide by 100
+                        double number = Double.parseDouble(part);
+                        result *= (number / 100); // Multiply the result
+                    }
+                }
+
+                // Set the final result to the total text field and update currentExpression
                 totaltxt.setText(String.valueOf(result));
                 currentExpression = String.valueOf(result);
                 return;
             }
 
-            if (currentExpression.endsWith(".")) {
-                currentExpression = currentExpression.replace(".", "");
-            }
-
+            // Handle the case where the expression ends with an operator, so we trim it
             if (currentExpression.length() > 0 && isOperator(currentExpression.charAt(currentExpression.length() - 1))) {
                 currentExpression = currentExpression.substring(0, currentExpression.length() - 1);
             }
 
+            // If the expression is just a number (or decimal), show it directly
             if (currentExpression.matches("^[0-9.]+$")) {
                 totaltxt.setText(currentExpression);
                 return;
             }
 
+            // Evaluate the expression by replacing "X" with "*" for multiplication
             double result = evaluateExpression(currentExpression.replace("X", "*"));
             String res = String.valueOf(result);
+
+            // Format the result by removing trailing ".0" and rounding if necessary
             if (res.endsWith(".0")) {
                 res = res.replace(".0", "");
             } else {
@@ -180,6 +200,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
+            // Set the result to the text field and update the current expression
             totaltxt.setText(res);
             currentExpression = res;
         } catch (Exception e) {
@@ -187,7 +208,6 @@ public class MainActivity extends AppCompatActivity {
             currentExpression = "";
         }
     }
-
     private double evaluateExpression(String expression) {
         Stack<Double> numbers = new Stack<>();
         Stack<Character> operators = new Stack<>();
