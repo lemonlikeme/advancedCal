@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="buttonBorder" parent = "Widget.AppCompat.Button.Borderless">
+        <item name="android:background">@drawable/buttonborder</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18sp</item>"
+    </style>
+
+    <style name="backSpace" parent = "Widget.AppCompat.Button.Borderless">
+        <item name="android:background">@drawable/buttonborder</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>"
+    </style>
+    <style name="editBorder">
+        <item name="android:background">@drawable/editborder</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">50sp</item>"
+        <item name="android:padding">30dp</item>
+    </style>
+</resources>

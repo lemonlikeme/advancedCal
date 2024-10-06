@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    totaltxt.setSelection(totaltxt.getText().length()); // Move cursor to the end
+                    totaltxt.setSelection(totaltxt.getText().length());
                 }
             }
         });
@@ -105,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
             case "%":
                 if (!currentExpression.isEmpty()) {
                     if (isOperatorPressed) {
-                        // Replace the operator if an operator was already pressed
                         currentExpression = currentExpression.substring(0, currentExpression.length() - 1) + input;
                     } else {
                         currentExpression += input;
@@ -133,13 +132,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void calculateResult() {
         try {
-            // Check if current expression ends with '%'
             if (currentExpression.endsWith("%")) {
                 String numberPart = currentExpression.substring(0, currentExpression.length() - 1);
                 double number = Double.parseDouble(numberPart);
-                double result = number / 100;  // Convert to percentage
+                double result = number / 100;
                 totaltxt.setText(String.valueOf(result));
-                currentExpression = String.valueOf(result);  // Update current expression for further calculations
+                currentExpression = String.valueOf(result);
                 return;
             }
 
@@ -147,31 +145,33 @@ public class MainActivity extends AppCompatActivity {
                 currentExpression = currentExpression.substring(0, currentExpression.length() - 1);
             }
 
-            // If no operator is present, just print the single operand
             if (currentExpression.matches("^[0-9.]+$")) {
-                totaltxt.setText(currentExpression);  // No operation, just display the number
+                totaltxt.setText(currentExpression);
                 return;
             }
 
-            // Evaluate the expression with operators
             double result = evaluateExpression(currentExpression.replace("X", "*"));
             String res = String.valueOf(result);
             if (res.endsWith(".0")) {
                 res = res.replace(".0", "");
-                totaltxt.setText(res);
-                currentExpression = res;
             } else {
-                totaltxt.setText(res);
-                currentExpression = res;
+                if (res.contains(".")) {
+                    String[] parts = res.split("\\.");
+                    if (parts[1].length() > 2) {
+                        result = Math.round(result * 100.0) / 100.0;
+                        res = String.valueOf(result);
+                    }
+                }
             }
+
+            totaltxt.setText(res);
+            currentExpression = res;
         } catch (Exception e) {
             totaltxt.setText("Error");
             currentExpression = "";
         }
     }
 
-
-    // Simple method to evaluate the expression using stacks
     private double evaluateExpression(String expression) {
         Stack<Double> numbers = new Stack<>();
         Stack<Character> operators = new Stack<>();
@@ -179,16 +179,15 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < expression.length(); i++) {
             char c = expression.charAt(i);
 
-            // If the character is a digit, parse the full number
             if (Character.isDigit(c)) {
                 StringBuilder number = new StringBuilder();
                 while (i < expression.length() && (Character.isDigit(expression.charAt(i)) || expression.charAt(i) == '.')) {
                     number.append(expression.charAt(i++));
                 }
-                i--; // step back to correct for the extra increment
+                i--;
                 numbers.push(Double.parseDouble(number.toString()));
             }
-            // If the character is an operator
+
             else if (c == '+' || c == '-' || c == '*' || c == '/' || c == '%') {
                 while (!operators.isEmpty() && precedence(c) <= precedence(operators.peek())) {
                     numbers.push(applyOperator(operators.pop(), numbers.pop(), numbers.pop()));
@@ -197,7 +196,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        // Apply remaining operators
         while (!operators.isEmpty()) {
             numbers.push(applyOperator(operators.pop(), numbers.pop(), numbers.pop()));
         }
@@ -205,7 +203,6 @@ public class MainActivity extends AppCompatActivity {
         return numbers.pop();
     }
 
-    // Returns precedence of operators
     private int precedence(char operator) {
         switch (operator) {
             case '+':
@@ -220,7 +217,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // Applies an operator to two numbers
     private double applyOperator(char operator, double b, double a) {
         switch (operator) {
             case '+':
