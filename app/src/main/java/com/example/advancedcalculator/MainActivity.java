@@ -114,12 +114,24 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case "=":
                 calculateResult();
+                isOperatorPressed = false;
                 break;
             case ".":
-                if (!currentExpression.endsWith(".")) {
-                    currentExpression += ".";
+                if (currentExpression.isEmpty()) {
+                    currentExpression += "0.";  // Add "0." if nothing is entered
+                } else {
+                    // Split the current expression by operators to check the last number
+                    String[] parts = currentExpression.split("[+\\-*/X%]");
+                    String lastNumber = parts[parts.length - 1];  // Get the last number
+
+                    // Check if the last number already contains a decimal point
+                    if (!lastNumber.contains(".")) {
+                        currentExpression += "."; // Add decimal point if not already present
+                    }
                 }
                 break;
+
+
             default:
                 currentExpression += input;
                 totaltxt.setText(currentExpression);
@@ -139,6 +151,10 @@ public class MainActivity extends AppCompatActivity {
                 totaltxt.setText(String.valueOf(result));
                 currentExpression = String.valueOf(result);
                 return;
+            }
+
+            if (currentExpression.endsWith(".")) {
+                currentExpression = currentExpression.replace(".", "");
             }
 
             if (currentExpression.length() > 0 && isOperator(currentExpression.charAt(currentExpression.length() - 1))) {
@@ -242,10 +258,20 @@ public class MainActivity extends AppCompatActivity {
 
     private void backspace() {
         if (currentExpression.length() > 0) {
+            // Check if the last character was an operator
+            char lastChar = currentExpression.charAt(currentExpression.length() - 1);        if (isOperator(lastChar)) {
+                isOperatorPressed = false; // Reset the operator flag if the last character is an operator
+            } else {
+                // If it's a number, we can reset the operator flag to allow entering an operator after
+                isOperatorPressed = true;
+            }
+
+            // Remove the last character
             currentExpression = currentExpression.substring(0, currentExpression.length() - 1);
             totaltxt.setText(currentExpression);
         }
     }
+
     private boolean isOperator(char c) {
         return c == '+' || c == '-' || c == 'X' || c == '/'|| c == '%';
     }
