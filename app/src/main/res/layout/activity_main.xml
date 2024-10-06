@@ -26,7 +26,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="25dp"
         android:orientation="horizontal"
         android:paddingTop="40dp"
         android:paddingBottom="10dp"
@@ -34,17 +34,19 @@
 
         <Button
             android:layout_width="68dp"
-            android:layout_height="60dp"
+            android:layout_height="68dp"
             android:layout_margin="5dp"
+            app:cornerRadius="10dp"
             android:text="@string/clear"
             android:id="@+id/buttonC"
-            style="@style/buttonBorder"
+            style="@style/signs"
             />
 
         <Button
             android:layout_width="68dp"
-            android:layout_height="60dp"
+            android:layout_height="68dp"
             android:layout_margin="5dp"
+            app:cornerRadius="10dp"
             android:text="@string/lessEquals"
             android:id="@+id/buttonLessEquals"
             style="@style/backSpace"
@@ -52,20 +54,22 @@
 
         <Button
             android:layout_width="68dp"
-            android:layout_height="60dp"
+            android:layout_height="68dp"
             android:layout_margin="5dp"
+            app:cornerRadius="10dp"
             android:text="@string/percent"
             android:id="@+id/buttonPercent"
-            style="@style/buttonBorder"
+            style="@style/signs"
             />
 
         <Button
             android:layout_width="68dp"
-            android:layout_height="60dp"
+            android:layout_height="68dp"
+            app:cornerRadius="10dp"
             android:layout_margin="5dp"
             android:text="@string/div"
             android:id="@+id/buttonDivide"
-            style="@style/buttonBorder"
+            style="@style/signs"
             />
     </LinearLayout>
 
@@ -79,38 +83,42 @@
 
         <Button
             android:layout_width="68dp"
-            android:layout_height="60dp"
+            android:layout_height="68dp"
             android:layout_margin="5dp"
+            app:cornerRadius="10dp"
             android:text="@string/seven"
             android:id="@+id/button7"
-            style="@style/buttonBorder"
+            style="@style/buttonNumbers"
             />
 
         <Button
             android:layout_width="68dp"
-            android:layout_height="60dp"
+            android:layout_height="68dp"
             android:layout_margin="5dp"
+            app:cornerRadius="10dp"
             android:text="@string/eight"
             android:id="@+id/button8"
-            style="@style/buttonBorder"
+            style="@style/buttonNumbers"
             />
 
         <Button
             android:layout_width="68dp"
-            android:layout_height="60dp"
+            android:layout_height="68dp"
             android:layout_margin="5dp"
+            app:cornerRadius="10dp"
             android:text="@string/nine"
             android:id="@+id/button9"
-            style="@style/buttonBorder"
+            style="@style/buttonNumbers"
             />
 
         <Button
             android:layout_width="68dp"
-            android:layout_height="60dp"
+            android:layout_height="68dp"
             android:layout_margin="5dp"
+            app:cornerRadius="10dp"
             android:text="@string/times"
             android:id="@+id/buttonMultiply"
-            style="@style/buttonBorder"
+            style="@style/signs"
             />
 
     </LinearLayout>
@@ -125,38 +133,42 @@
 
         <Button
             android:layout_width="68dp"
-            android:layout_height="60dp"
+            android:layout_height="68dp"
             android:layout_margin="5dp"
+            app:cornerRadius="10dp"
             android:text="@string/four"
             android:id="@+id/button4"
-            style="@style/buttonBorder"
+            style="@style/buttonNumbers"
             />
 
         <Button
             android:layout_width="68dp"
-            android:layout_height="60dp"
+            android:layout_height="68dp"
             android:layout_margin="5dp"
+            app:cornerRadius="10dp"
             android:text="@string/five"
             android:id="@+id/button5"
-            style="@style/buttonBorder"
+            style="@style/buttonNumbers"
             />
 
         <Button
             android:layout_width="68dp"
-            android:layout_height="60dp"
+            android:layout_height="68dp"
             android:layout_margin="5dp"
+            app:cornerRadius="10dp"
             android:text="@string/six"
             android:id="@+id/button6"
-            style="@style/buttonBorder"
+            style="@style/buttonNumbers"
             />
 
         <Button
             android:layout_width="68dp"
-            android:layout_height="60dp"
+            android:layout_height="68dp"
+            app:cornerRadius="10dp"
             android:layout_margin="5dp"
             android:text="@string/minus"
             android:id="@+id/buttonMinus"
-            style="@style/buttonBorder"
+            style="@style/signs"
             />
     </LinearLayout>
 
@@ -170,38 +182,42 @@
 
         <Button
             android:layout_width="68dp"
-            android:layout_height="60dp"
+            android:layout_height="68dp"
             android:layout_margin="5dp"
+            app:cornerRadius="10dp"
             android:text="@string/one"
             android:id="@+id/button1"
-            style="@style/buttonBorder"
+            style="@style/buttonNumbers"
             />
 
         <Button
             android:layout_width="68dp"
-            android:layout_height="60dp"
+            android:layout_height="68dp"
             android:layout_margin="5dp"
+            app:cornerRadius="10dp"
             android:text="@string/two"
             android:id="@+id/button2"
-            style="@style/buttonBorder"
+            style="@style/buttonNumbers"
             />
 
         <Button
             android:layout_width="68dp"
-            android:layout_height="60dp"
+            android:layout_height="68dp"
             android:layout_margin="5dp"
+            app:cornerRadius="10dp"
             android:text="@string/three"
             android:id="@+id/button3"
-            style="@style/buttonBorder"
+            style="@style/buttonNumbers"
             />
 
         <Button
             android:layout_width="68dp"
-            android:layout_height="60dp"
+            android:layout_height="68dp"
             android:layout_margin="5dp"
+            app:cornerRadius="10dp"
             android:text="@string/plus"
             android:id="@+id/buttonPlus"
-            style="@style/buttonBorder"
+            style="@style/signs"
             />
     </LinearLayout>
 
@@ -215,29 +231,34 @@
 
         <Button
             android:layout_width="68dp"
-            android:layout_height="60dp"
+            android:layout_height="68dp"
             android:layout_margin="5dp"
+            app:cornerRadius="10dp"
             android:text="@string/dot"
             android:id="@+id/buttonPoint"
-            style="@style/buttonBorder"
+            style="@style/buttonNumbers"
             />
 
         <Button
             android:id="@+id/button0"
             android:layout_width="68dp"
-            android:layout_height="60dp"
+            android:layout_height="68dp"
             android:layout_margin="5dp"
+            app:cornerRadius="10dp"
             android:text="@string/zero"
-            style="@style/buttonBorder"
+            style="@style/buttonNumbers"
             />
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="68dp"
             android:layout_margin="5dp"
+            app:cornerRadius="10dp"
             android:text="@string/equals"
             android:id="@+id/buttonEquals"
-            style="@style/buttonBorder"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:backgroundTint="@color/blue"
             />
 
     </LinearLayout>
